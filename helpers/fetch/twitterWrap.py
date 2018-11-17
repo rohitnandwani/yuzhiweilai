@@ -8,6 +8,7 @@ import time
 import os
 import sys
 
+<<<<<<< HEAD
 def load_api():
     ''' Function that loads the twitter API after authorizing
         the user. '''
@@ -45,8 +46,9 @@ mentions = []
                   mentions.append(name)
       if status.created_at < end_date:
         break
-###########################
-twitterApi = twitter.Api(consumer_key='l4nKhphV5g5KNpBtUglaw', consumer_secret='1U6cCn5oKulzn5aNtZY90iSTJZXDuU3mph5AeJ8aE', access_token_key='306720614-ADqPkQjbPAiPuKr9n2OgQVfVprUt4UZhinCVHKuZ', access_token_secret='LdcPlH0m02zxL8hpj3yV0BgKULVXrSkuRPbz1pw814Y')
+
+twitterApi = twitter.Api(consumer_key='BeJvMbvBdYoptsvMiTxCg', consumer_secret='Ny6nzkkPh3IIR56fY2jrBpqBjR547nBnxEeohDRlVo', access_token_key='306720614-JnMHe5U5XHGjlQ33IHkrsUcfmOFUChlHa2Jqtbgd', access_token_secret='eD7HxdD9u6zR0voZyvY5hiLGi9Kv6SoWplhV9w0tuXojE')
+
 
 def fetchUserTimeline(screenName): 
     statuses = twitterApi.GetUserTimeline(screen_name=screenName,include_entities=True)
