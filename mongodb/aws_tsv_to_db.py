@@ -28,7 +28,6 @@ with open(datapath, "rt") as amazonReviews:
             keyArray = amazonReview
         else:
             reviewDictionary = {}
-            
             for i in range(0, len(keyArray)):
                 key = keyArray[i]
                 try:
