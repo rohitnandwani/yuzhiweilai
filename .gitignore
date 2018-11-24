@@ -1,4 +1,9 @@
 venv/
+data/
+.vscode/
+
+.DS_Store
+
 awsData/
 # Byte-compiled / optimized / DLL files
 __pycache__/
