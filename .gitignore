@@ -4,6 +4,7 @@ data/
 
 .DS_Store
 
+awsData/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
