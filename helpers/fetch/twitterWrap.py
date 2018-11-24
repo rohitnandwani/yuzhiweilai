@@ -5,3 +5,12 @@ twitterApi = twitter.Api(consumer_key='BeJvMbvBdYoptsvMiTxCg', consumer_secret='
 def fetchUserTimeline(screenName): 
     statuses = twitterApi.GetUserTimeline(screen_name=screenName)
     return statuses
+ 
+
+def searchManyTweets(searchTerm, resultType, since, until, numberOfTweets):
+    results = twitterApi.GetSearch(raw_query="q=Xiaomi%20earphone%20&result_type=recent&since=2013-11-01&count=1000")
+    print results
+    return
+
+
+searchManyTweets(1, 2, 3, 4, 10000)
