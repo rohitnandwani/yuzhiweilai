@@ -13,8 +13,8 @@ db = client.yuzhiweilaidb
 # Issue the serverStatus command and print the results
 
 
-datapath = "/Users/anand/Documents/dmProject/yuzhiweilai/awsData/amazon_reviews_us_Electronics_v1_00.tsv"
-with open(datapath, "rt", encoding = "utf8") as amazonReviews:
+datapath = "/Users/rohit/Documents/Assignments/data_mining/final_project/data/amazon_reviews_us_Electronics_v1_00.tsv"
+with open(datapath, "rt") as amazonReviews:
     amazonReviews = csv.reader(amazonReviews, delimiter='\t')
 
     #loop over all the records
@@ -24,16 +24,18 @@ with open(datapath, "rt", encoding = "utf8") as amazonReviews:
         count += 1
         if count == 1:
             keyArray = amazonReview
-            #print(len(keyArray))
         else:
             reviewDictionary = {}
+            
             for i in range(0, len(keyArray)):
                 key = keyArray[i]
-                value = amazonReview[i]
-                #if key == 'review_date':
+                try:
+                    value = amazonReview[i]
+                    reviewDictionary[key] = value
+                    toDatabase.append(reviewDictionary)
+                except:
+                    pass
 
-                reviewDictionary[key] = value
-                toDatabase.append(reviewDictionary)
     
 result = db.reviews.insert_many(toDatabase)
 print(result)
