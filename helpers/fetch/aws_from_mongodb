@@ -1,0 +1,11 @@
+import re
+
+
+print("I'm running!")
+from pymongo import MongoClient
+client = MongoClient("127.0.0.1:27017")
+db = client.yuzhiweilaidb
+
+bool isHeadphone = db.getCollection('reviews').find({'product_title' : /headphone/i})
+
+

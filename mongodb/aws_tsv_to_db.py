@@ -1,6 +1,7 @@
 #read the file
 import csv
 import sys
+import datetime
 
 #establish connection with database
 from pymongo import MongoClient
@@ -23,22 +24,16 @@ with open(datapath, "rt", encoding = "utf8") as amazonReviews:
         count += 1
         if count == 1:
             keyArray = amazonReview
+            #print(len(keyArray))
         else:
             reviewDictionary = {}
-            for i in range(0, len(keyArray)-1):
+            for i in range(0, len(keyArray)):
                 key = keyArray[i]
                 value = amazonReview[i]
+                #if key == 'review_date':
+
                 reviewDictionary[key] = value
-            toDatabase.append(reviewDictionary)
+                toDatabase.append(reviewDictionary)
     
 result = db.reviews.insert_many(toDatabase)
 print(result)
-
-        #print(index, amazonReview)
-        #print(type(amazonReview), amazonReview)
-
-
-
-
-
-#dump
