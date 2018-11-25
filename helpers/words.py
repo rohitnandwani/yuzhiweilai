@@ -18,7 +18,7 @@ connectivityDict  = {'disconnect', 'drop', 'connect', 'connection', 'bluetoothh'
                     }
 commonDict        = {'horrible', 'sorry', "don't buy", 'minimal', 'issue', 'needs', 'should', 'could', 'can', 'trouble'
                      'down hill', 'poor', 'dissapoint', 'dissapointed', 'dissapointing', 'defective', 'return', 'refund',
-                     'irrirate', 'irritated', 'irritation', 'sucked', 'suck', 'shit', 'bulshit'}
+                     'irrirate', 'irritated', 'irritation', 'sucked', 'suck', 'shit', 'bullshit'}
 
 
 
