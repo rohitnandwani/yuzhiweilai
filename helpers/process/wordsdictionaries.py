@@ -47,6 +47,6 @@ def getCatDicts():
         #'commonDict':commonDict
     }
 
-print (getCatDicts())
+#print (getCatDicts())
 
 
