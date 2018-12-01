@@ -21,9 +21,9 @@ def fetchTwitterData(url):
   return response
   
 
-def twitterSearch(query, iterations):
+def twitterSearch(searchTerm, until, iterations):
   max_id = str(0)
-  next_results = "?q="+query+"&result_type=mixed&count=100"
+  next_results = "?q="+searchTerm+"&result_type=recent&count=100"
   trends_tweets = [None] * iterations
   trend_tweets_dict_aggregated = []
   for i in range(0, iterations):
@@ -52,7 +52,7 @@ def twitterSearch(query, iterations):
     else:
       break
 
-    print 'For query: '+query+' Iteration: '+str(i)
+    print ('For searchTerm: '+searchTerm+' Iteration: '+str(i))
     #print 'Max_id: '+str(max_id)
     #print 'Next_results: '+str(next_results)
     
