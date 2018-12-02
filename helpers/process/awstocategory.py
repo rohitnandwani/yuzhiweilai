@@ -37,8 +37,9 @@ timePeriods = frequencies.createTimePeriods(startTime, endTime, intervalType, in
 #if review_date is start date upto start date + 3months
 #    add all the amazon reviews lying in this range to dictionary with key of these 3 months as timeVariable
 
-weightedCategoryCount = {}
+
 for i in range (0, len(timePeriods)-1):
+    weightedCategoryCount = {}
     startTime = timePeriods[i]
     endTime   = timePeriods[i+1]
     amzReviews = db.reviews.find(
@@ -77,7 +78,7 @@ f.writerow(["time_period", "category", "count"])
  
 for timePeriod, weightedCategoryCounts in amazonReviewsDictionaryWithTime.items():
     for key, value in weightedCategoryCounts.items():
-        timePeriod = "{:'%Y-%m-%d'}".format(timePeriod)
+        #timePeriod = "{:'%Y-%m-%d'}".format(timePeriod)
         f.writerow([timePeriod, key, value])
 
 

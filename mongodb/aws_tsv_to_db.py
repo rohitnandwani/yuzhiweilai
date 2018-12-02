@@ -10,12 +10,13 @@ from pymongo import MongoClient
 from pprint import pprint
 # connect to MongoDB, change the << MONGODB URL >> to reflect your own connection string
 
-client = MongoClient('127.0.0.1:27017')
-db = client.yuzhiweilaidb
+connection = MongoClient('ds123976.mlab.com', 23976)
+db = connection['yuzhiweilaidb']
+db.authenticate('admin', 'admin1')
 # Issue the serverStatus command and print the results
 
 
-datapath = "/Users/Anand/Documents/dmProject/yuzhiweilai/awsData/amazon_reviews_us_Electronics_v1_00.tsv"
+datapath = "/Users/rohit/Documents/Assignments/data_mining/final_project/data/amazon_reviews_us_Electronics_v1_00.tsv"
 with open(datapath, "rt") as amazonReviews:
     amazonReviews = csv.reader(amazonReviews, delimiter='\t')
 

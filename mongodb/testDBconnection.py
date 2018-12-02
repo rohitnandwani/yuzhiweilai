@@ -9,6 +9,12 @@ from pymongo import MongoClient
 from pprint import pprint
 # connect to MongoDB, change the << MONGODB URL >> to reflect your own connection string
 
-db = MongoClient('mongodb://admin:admin1@ds123976.mlab.com:23976/yuzhiweilaidb')
 
-result = db.reviews.insert([{'hello_biatch' : 1}, {'hello_biatch' : 2}])
+connection = MongoClient('ds123976.mlab.com', 23976)
+db = connection['yuzhiweilaidb']
+db.authenticate('admin', 'admin1')
+
+
+print (db)
+
+result = db.new.insert_many([{'hello_biatch' : 1}, {'hello_biatch' : 2}])
