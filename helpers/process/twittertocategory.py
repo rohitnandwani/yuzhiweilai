@@ -5,6 +5,7 @@ import datetime
 import time
 from datetime import timedelta
 
+
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 analyzer = SentimentIntensityAnalyzer()
 
@@ -17,16 +18,15 @@ client = MongoClient('127.0.0.1:27017')
 db = client.yuzhiweilaidb
 # Issue the serverStatus command and print the results
 
-amzregx1 = re.compile("/headphone|earphone", re.IGNORECASE)
-amzregx2 = re.compile("case|hanger", re.IGNORECASE)
+twitterregx = re.compile("case|hanger", re.IGNORECASE)
 
-amazonReviewsDictionaryWithTime = {}
+twitterReviewsDictionaryWithTime = {}
 
 allDictionaries = wordsdictionaries.getCatDicts()
 #create time periods
-endTimeString = "2013-12-31"
+endTimeString = "2013-12-01"
 endTime = time.mktime(datetime.datetime.strptime(endTimeString, "%Y-%m-%d").timetuple())
-amzReviewsWithTimePeriods = {}
+twitterWithTimePeriods = {}
 endTime = datetime.datetime.fromtimestamp(endTime)
 
 startTime = endTime - timedelta(days=365*10)
@@ -44,58 +44,69 @@ for i in range (0, len(timePeriods)-1):
     weightedCategoryCount = {}
     startTime = timePeriods[i]
     endTime   = timePeriods[i+1]
-    amzReviews = db.reviews.find(
+
+    '''
+    allTweets = db.twitter.find(
         {
             "$and":
             [
-                {"product_title": amzregx1},
-                {"product_title": {"$not":amzregx2}},
-                {"review_date": {"$gt":startTime}},
-                {"review_date": {"$lt":endTime}}
+                {"text": {"$not":twitterregx}},
+                #{"created_at": {"$gt":startTime}},
+                #{"created_at": {"$lt":endTime}}
             ]
         }, 
         {
-            "review_body":1, 
-            "review_date":1, "_id":0
+            "text":1, 
+            "created_at":1, "_id":0
         }
     )
-    print (amzReviews)
+    '''
+    allTweets = db.twitter.aggregate([
+        {
+            "$match": {
+                "$and":
+                [
+                    {"text": {"$not":twitterregx}},
+                    {"created_at": {"$gt":startTime}},
+                    {"created_at": {"$lt":endTime}}
+                ]
+            }
+        }, 
+        {
+            "$group": {
+                "_id": "$id_str",
+                "id" : { "$first": "$_id" }, 
+                "text": { "$first": "$text" }, 
+                "created_at": { "$first": "$created_at" }, 
+            }
+        }
+    ])
 
-    for amzReview in amzReviews:
-        #if not analyzer.polarity_scores(amzReview['review_body'].encode('ascii', 'ignore').decode('ascii'))["compound"] < -0.3:
+    countx = 0
+    for tweet in allTweets:
+        countx += 1
+        #if not analyzer.polarity_scores(tweet['text'].encode('ascii', 'ignore').decode('ascii'))["compound"] < 0.3:
         #    continue
         for dictionaryName, dictionaryValue in allDictionaries.items():
-            if any (x in amzReview['review_body'] for x in dictionaryValue):
+            if any (x in tweet['text'] for x in dictionaryValue):
                 if not dictionaryName in weightedCategoryCount:
                     weightedCategoryCount[dictionaryName] = 1
                 else:
                     weightedCategoryCount[dictionaryName] += 1
+    print (countx)
     
-    amazonReviewsDictionaryWithTime[startTime] = weightedCategoryCount
-    print (amazonReviewsDictionaryWithTime)
+    twitterReviewsDictionaryWithTime[startTime] = weightedCategoryCount
+    #print (twitterReviewsDictionaryWithTime)
 
 import csv
-f = csv.writer(open("amazondata.csv", "w"))
+f = csv.writer(open("twitterdata.csv", "w"))
 
 # Write CSV Header, If you dont need that, remove this line
 f.writerow(["time_period", "category", "count"])
  
-for timePeriod, weightedCategoryCounts in amazonReviewsDictionaryWithTime.items():
+for timePeriod, weightedCategoryCounts in twitterReviewsDictionaryWithTime.items():
     for key, value in weightedCategoryCounts.items():
         #timePeriod = "{:'%Y-%m-%d'}".format(timePeriod)
         f.writerow([timePeriod, key, value])
-
-
-#for timePeriod in timePeriods:
-#    for amzReview in amzReviews:
-#        for dictionaryName, dictionaryValue in allDictionaries.items():
-#            if any (x in amzReview['review_body'] for x in dictionaryValue):
-#                if not dictionaryName in weightedCategoryCount:
-#                    weightedCategoryCount[dictionaryName] = 1
-#                else:
-#                    weightedCategoryCount[dictionaryName] += 1
-#print(weightedCategoryCount)
-
-            
 
 

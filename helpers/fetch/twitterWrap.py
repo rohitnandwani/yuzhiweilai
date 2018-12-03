@@ -19,13 +19,19 @@ db = client.yuzhiweilaidb
 number_of_results = 10000
 results_per_iteration = 100
 number_of_iterations = number_of_results / results_per_iteration
-number_of_iterations = 500
+number_of_iterations = 1
 
 twitterApi = twitter.Api(consumer_key='BeJvMbvBdYoptsvMiTxCg', consumer_secret='Ny6nzkkPh3IIR56fY2jrBpqBjR547nBnxEeohDRlVo', access_token_key='306720614-JnMHe5U5XHGjlQ33IHkrsUcfmOFUChlHa2Jqtbgd', access_token_secret='eD7HxdD9u6zR0voZyvY5hiLGi9Kv6SoWplhV9w0tuXojE')
 
 def fetchUserTimeline(screenName): 
     statuses = twitterApi.GetUserTimeline(screen_name=screenName)
     return statuses
+
+#print (fetchUserTimeline('RohitNandwani'))
+
+#import sys
+
+#sys.exit(0)
 
 headphoneBrands = [
     "Sony", 
@@ -69,20 +75,19 @@ count = 0
 results = []
 for brand in headphoneBrands:
     for product in products:
-        if count >= 450:
-            time.sleep(16*60 - start_time_window)
+        if count >= 180:
+            result = db.twitter2.insert_many(results)
+            time.sleep(16*60 - (time.time() - start_time_window))
             start_time_window = time.time()
             count = 0
-            result = db.twitter.insert_many(results)
             print(result)
             results = []
         search_term = urllib.quote_plus(brand + ' ' + product)
         print (search_term)
-        currentResults = twitterFetch.twitterSearch(search_term, '2013-11-01', number_of_iterations)
-        count = count + 1
+        twitterResponse = twitterFetch.twitterSearch(search_term, '2013-12-01', number_of_iterations)
+        currentResults = twitterResponse["all_tweets"]
+        count = count + twitterResponse["iterations"]
         results.extend(currentResults)
-    
 
-
-result = db.twitter.insert_many(results)
+result = db.twitter2.insert_many(results)
 print(result)
