@@ -63,7 +63,7 @@ pyparsing==2.0.1
 python-dateutil==2.7.5
 python-twitter==3.5
 pytz==2013.7
-PyYAML==3.13
+PyYAML==5.4
 requests==2.20.1
 requests-oauthlib==1.0.0
 rsa==3.4.2
