@@ -72,6 +72,6 @@ scipy==0.13.0b1
 six==1.11.0
 snowballstemmer==1.2.1
 ujson==1.35
-urllib3==1.24.1
+urllib3==1.26.5
 vaderSentiment==3.2.1
 xattr==0.6.4
