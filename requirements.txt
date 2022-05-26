@@ -71,7 +71,7 @@ s3transfer==0.1.13
 scipy==0.13.0b1
 six==1.11.0
 snowballstemmer==1.2.1
-ujson==1.35
+ujson==5.2.0
 urllib3==1.24.1
 vaderSentiment==3.2.1
 xattr==0.6.4
